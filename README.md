@@ -1,52 +1,94 @@
 # MERN Stack Capstone Project
 
-This assignment focuses on designing, developing, and deploying a comprehensive full-stack MERN application that showcases all the skills you've learned throughout the course.
+This repository contains a complete, minimal MERN capstone application built by following the Week8-Assignment.md brief. It includes:
+- Backend API with Express, MongoDB (Mongoose), JWT auth, validation, middleware, and Socket.io real‑time events.
+- Frontend React app (Vite) with authentication, task CRUD UI, and real‑time updates via Socket.io.
+- Tests for backend endpoints (Jest + Supertest + mongodb-memory-server).
+- Dockerfiles and docker-compose for local development.
+- GitHub Actions CI to run backend tests on every push/PR.
 
-## Assignment Overview
+## Tech Stack
+- MongoDB, Mongoose
+- Express.js, Node.js, Socket.io
+- React (Vite), React Router
+- Jest, Supertest, mongodb-memory-server
+- Docker, docker-compose, GitHub Actions
 
-You will:
-1. Plan and design a full-stack MERN application
-2. Develop a robust backend with MongoDB, Express.js, and Node.js
-3. Create an interactive frontend with React.js
-4. Implement testing across the entire application
-5. Deploy the application to production
+## Monorepo Structure
+- backend/ — Express API, models, routes, controllers, tests
+- frontend/ — React app
+- .github/workflows/ci.yml — CI pipeline
+- docker-compose.yml — Local dev orchestration
 
-## Getting Started
+## Prerequisites
+- Node.js 18+
+- npm
+- Docker (optional but recommended)
 
-1. Accept the GitHub Classroom assignment
-2. Clone the repository to your local machine
-3. Follow the instructions in the `Week8-Assignment.md` file
-4. Plan, develop, and deploy your capstone project
+## Quick Start (Local without Docker)
+1. Backend
+   - cd backend
+   - cp .env.example .env (optional; defaults will work for local Mongo on 27017)
+   - npm install
+   - Make sure MongoDB is running locally or use MONGO_URI in .env
+   - npm run dev
+   - API will be on http://localhost:5000
+2. Frontend
+   - Open a new terminal
+   - cd frontend
+   - npm install
+   - npm run dev
+   - App will be on http://localhost:5173
 
-## Files Included
+## Quick Start (Docker Compose)
+1. docker compose up --build
+2. Open http://localhost:5173
 
-- `Week8-Assignment.md`: Detailed assignment instructions
+Services
+- MongoDB: localhost:27017
+- Backend API: http://localhost:5000
+- Frontend: http://localhost:5173
 
-## Requirements
+## Testing
+- cd backend && npm test
 
-- Node.js (v18 or higher)
-- MongoDB (local installation or Atlas account)
-- npm or yarn
-- Git and GitHub account
-- Accounts on deployment platforms (Render/Vercel/Netlify/etc.)
+The backend test suite spins up an in-memory MongoDB and runs Supertest against the Express app. No external services required.
 
-## Project Ideas
+## API Overview
+- POST /api/auth/register — create user, returns token
+- POST /api/auth/login — login, returns token
+- GET /api/auth/me — get current user (requires Bearer token)
+- GET /api/tasks — list current user tasks
+- POST /api/tasks — create task { title, dueDate? }
+- PUT /api/tasks/:id — update task { title?, completed?, dueDate? }
+- DELETE /api/tasks/:id — delete task
 
-The `Week8-Assignment.md` file includes several project ideas, but you're encouraged to develop your own idea that demonstrates your skills and interests.
+Socket.io events broadcast to clients:
+- task:created { task }
+- task:updated { task }
+- task:deleted { id }
 
-## Submission
+## Deployment
+This repo includes Dockerfiles suitable for container deployment. You can deploy using any container platform. For a simple cloud deployment:
+- Build and push images for backend and frontend.
+- Provide environment variables:
+  - Backend: PORT, MONGO_URI, JWT_SECRET
+  - Frontend: VITE_API_URL pointing to your backend URL
 
-Your project will be automatically submitted when you push to your GitHub Classroom repository. Make sure to:
+## Project Presentation Checklist (per Week8-Assignment.md)
+- [ ] Clear problem statement and feature list
+- [ ] Architecture overview (include data model, API design, and real‑time flow)
+- [ ] Screenshots of key features (add to README)
+- [ ] Live demo link (add below)
+- [ ] 5–10 minute video walkthrough (add link below)
 
-1. Commit and push your code regularly
-2. Include comprehensive documentation
-3. Deploy your application and add the live URL to your README.md
-4. Create a video demonstration and include the link in your README.md
+Live App: <ADD_URL_HERE>
+Demo Video: <ADD_URL_HERE>
 
 ## Resources
-
 - [MongoDB Documentation](https://docs.mongodb.com/)
 - [Express.js Documentation](https://expressjs.com/)
 - [React Documentation](https://react.dev/)
 - [Node.js Documentation](https://nodejs.org/en/docs/)
-- [GitHub Classroom Guide](https://docs.github.com/en/education/manage-coursework-with-github-classroom) 
+- [Socket.io](https://socket.io/)
+- [GitHub Actions](https://docs.github.com/actions) 
